@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <body style="text-align: center;" onload="javascript:onload()">
-  <h3>Success for file upload.</h3>
-  <h5>Move first page automatically in 3 seconds.</h5>
-  <hr width="100%" color="black"/>
-
-  <img src="{{ url_for('static',filename='images/tick.png') }}" width="100"/>
   <br>
-  CREATE DATE: {{ file_info['create'] }} <br>
-  MODIFY DATE: {{ file_info['modify'] }} <br>
-  ACCESS DATE: {{ file_info['access'] }} <br>
-  SIZE: {{ file_info['size'] }}
-
+  <div class="jumbotron text-center">
+    <h3>Upload success!</h3>
+    <h5>Move first page automatically in 3 seconds.</h5>
+    <img src="{{ url_for('static',filename='images/tick.png') }}" width="100"/>
+  </div>
   <script language="javascript">
     function onload(){
       setTimeout('go_home()',3000)
