@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from flask import send_file
 from flask_wtf import FlaskForm  # 폼 관리, CSRF보호, 유효성 검사, 리캡차 기능
 from flask_wtf.file import FileField, FileRequired
 from werkzeug.utils import secure_filename  # 사용자 업로드 파일명 검증
@@ -31,8 +32,10 @@ def stamp2real(stamp):
 def getctime(file_path):
 	return os.path.getctime(file_path)
 
+
 def getmtime(file_path):
 	return os.path.getmtime(file_path)
+
 
 def getsize(file_path):
 	return os.path.getsize(file_path)
@@ -58,5 +61,21 @@ def upload_page():
 	return render_template('home.html', form=form, pwd=os.getcwd() + "\\uploads", infos=infos)
 
 
+@app.route('/down/<string:filename>')
+def down_page(filename):
+	return send_file(f'uploads/{filename}', attachment_filename=filename, as_attachment=True)
+
+
+@app.route('/del/<path:filename>')
+def del_page(filename):
+	os.remove(f'uploads/{filename}')
+	return "<script>location.href = \"/\";</script>"
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template('deny.html', pwd=os.getcwd() + "\\uploads"), 404
+
+
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run()
